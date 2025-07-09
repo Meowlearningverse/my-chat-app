@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple P2P Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        #chat-box {
+            height: 300px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            text-align: left;
+            padding: 10px;
+        }
+        #message-input {
+            width: 70%;
+            padding: 8px;
+        }
+        button {
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #invite-link {
+            margin-top: 20px;
+            word-break: break-all;
+        }
+    </style>
+    <!-- Load PeerJS library -->
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <h1>Simple P2P Chat</h1>
+    
+    <!-- Step 1: Start or Join a Room -->
+    <div id="setup-screen">
+        <button id="create-room">Create Room</button>
+        <p>OR</p>
+        <input type="text" id="room-id" placeholder="Enter Room ID">
+        <button id="join-room">Join Room</button>
+    </div>
+
+    <!-- Step 2: Chat Interface (Hidden Initially) -->
+    <div id="chat-screen" style="display: none;">
+        <div id="chat-box"></div>
+        <input type="text" id="message-input" placeholder="Type a message...">
+        <button id="send-button">Send</button>
+        <div id="invite-link"></div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const setupScreen = document.getElementById('setup-screen');
+        const chatScreen = document.getElementById('chat-screen');
+        const createRoomBtn = document.getElementById('create-room');
+        const joinRoomBtn = document.getElementById('join-room');
+        const roomIdInput = document.getElementById('room-id');
+        const chatBox = document.getElementById('chat-box');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const inviteLinkDiv = document.getElementById('invite-link');
+
+        // PeerJS Variables
+        let peer;
+        let conn;
+        let currentRoomId;
+
+        // 1. Create a New Room
+        createRoomBtn.addEventListener('click', () => {
+            currentRoomId = generateRoomId();
+            initializePeer(currentRoomId);
+            showChatScreen();
+        });
+
+        // 2. Join an Existing Room
+        joinRoomBtn.addEventListener('click', () => {
+            currentRoomId = roomIdInput.value.trim();
+            if (!currentRoomId) {
+                alert("Please enter a Room ID!");
+                return;
+            }
+            initializePeer();
+            showChatScreen();
+        });
+
+        // 3. Send a Message
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Initialize PeerJS Connection
+        function initializePeer(roomId) {
+            peer = new Peer(roomId || undefined);
+
+            peer.on('open', (id) => {
+                console.log("Connected to PeerJS with ID:", id);
+                if (!roomId) {
+                    // If joining (not creating), connect to the host
+                    conn = peer.connect(currentRoomId);
+                    setupConnection(conn);
+                }
+            });
+
+            peer.on('connection', (connection) => {
+                conn = connection;
+                setupConnection(conn);
+            });
+
+            peer.on('error', (err) => {
+                console.error("PeerJS Error:", err);
+                alert("Connection error: " + err.message);
+            });
+        }
+
+        // Set Up Data Connection
+        function setupConnection(connection) {
+            connection.on('open', () => {
+                addMessage("System", "✅ Connected to peer!", "system");
+            });
+
+            connection.on('data', (data) => {
+                addMessage("Friend", data, "friend");
+            });
+
+            connection.on('close', () => {
+                addMessage("System", "❌ Connection closed", "system");
+            });
+        }
+
+        // Send a Message
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            if (conn && conn.open) {
+                conn.send(message);
+                addMessage("You", message, "you");
+                messageInput.value = "";
+            } else {
+                alert("Not connected yet!");
+            }
+        }
+
+        // Add Message to Chat Box
+        function addMessage(sender, text, type) {
+            const messageElement = document.createElement('div');
+            messageElement.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            messageElement.style.color = (type === "you") ? "blue" : (type === "friend") ? "green" : "gray";
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Show Chat Screen
+        function showChatScreen() {
+            setupScreen.style.display = "none";
+            chatScreen.style.display = "block";
+
+            // Generate an invite link
+            const inviteLink = `${window.location.href.split('?')[0]}?room=${currentRoomId}`;
+            inviteLinkDiv.innerHTML = `<strong>Invite Link:</strong> <a href="${inviteLink}" target="_blank">${inviteLink}</a>`;
+        }
+
+        // Generate Random Room ID
+        function generateRoomId() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+        // Check if URL has a room ID (for joining via link)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('room')) {
+            currentRoomId = urlParams.get('room');
+            initializePeer();
+            showChatScreen();
+        }
+    </script>
+</body>
+</html>
