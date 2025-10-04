@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - IdeaHub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/modals.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <div class="navbar-loading">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="/index.html" class="logo-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="logo-text">IdeaHub</span>
+                    </a>
+                </div>
+                <div class="nav-loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="container">
+                <div class="welcome-content">
+                    <h1 id="welcomeMessage">Welcome back, Innovator! 🚀</h1>
+                    <p id="dailyQuote">"The best way to predict the future is to create it." - Peter Drucker</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-section">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="ideasCount">0</h3>
+                            <p>Ideas Posted</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="likesCount">0</h3>
+                            <p>Likes Received</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="commentsCount">0</h3>
+                            <p>Comments Received</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="groupsCount">0</h3>
+                            <p>Groups Joined</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Layout -->
+        <section class="dashboard-main">
+            <div class="container">
+                <div class="dashboard-layout">
+                    <!-- Left Column - Goals & Quick Actions -->
+                    <div class="dashboard-left">
+                        <!-- Quick Actions -->
+                        <div class="quick-actions-card">
+                            <h3>Quick Actions</h3>
+                            <div class="actions-grid">
+                                <button class="action-btn" id="createPostBtn">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Create Thought</span>
+                                </button>
+                                <button class="action-btn" id="viewProfileBtn">
+                                    <i class="fas fa-user"></i>
+                                    <span>My Profile</span>
+                                </button>
+                                <button class="action-btn" id="exploreGroupsBtn">
+                                    <i class="fas fa-search"></i>
+                                    <span>Explore Groups</span>
+                                </button>
+                                <button class="action-btn" id="viewStatsBtn">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>View Analytics</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Stats -->
+                        <div class="mobile-stats-card">
+                            <h3>Your Stats</h3>
+                            <div class="stats-list-vertical">
+                                <div class="stat-item-mobile">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <div class="stat-info-mobile">
+                                        <h4 id="mobileIdeasCount">0</h4>
+                                        <p>Ideas Posted</p>
+                                    </div>
+                                </div>
+                                <div class="stat-item-mobile">
+                                    <i class="fas fa-heart"></i>
+                                    <div class="stat-info-mobile">
+                                        <h4 id="mobileLikesCount">0</h4>
+                                        <p>Likes Received</p>
+                                    </div>
+                                </div>
+                                <div class="stat-item-mobile">
+                                    <i class="fas fa-comments"></i>
+                                    <div class="stat-info-mobile">
+                                        <h4 id="mobileCommentsCount">0</h4>
+                                        <p>Comments Received</p>
+                                    </div>
+                                </div>
+                                <div class="stat-item-mobile">
+                                    <i class="fas fa-users"></i>
+                                    <div class="stat-info-mobile">
+                                        <h4 id="mobileGroupsCount">0</h4>
+                                        <p>Groups Joined</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goals Section -->
+                        <div class="goals-card">
+                            <div class="card-header">
+                                <h3>Your Goals</h3>
+                                <button class="btn btn-primary btn-sm" id="setGoalBtn">
+                                    <i class="fas fa-plus"></i> Set Goal
+                                </button>
+                            </div>
+                            <div class="goals-list" id="goalsList">
+                                <div class="empty-state">
+                                    <i class="fas fa-bullseye"></i>
+                                    <p>No goals set yet</p>
+                                    <small>Set your first goal to track your progress</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Column - Ideas Feed -->
+                    <div class="dashboard-center">
+                        <!-- Create Post Card -->
+                        <div class="create-post-card">
+                            <div class="post-input">
+                                <div class="user-avatar-small">
+                                    <img src="" alt="User" id="userAvatar" onerror="this.style.display='none'">
+                                    <span id="userInitial">U</span>
+                                </div>
+                                <input type="text" placeholder="Share your innovative idea..." id="quickPostInput">
+                                <button class="btn btn-primary" id="quickPostBtn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Ideas Feed -->
+                        <div class="ideas-feed">
+                            <div class="feed-header">
+                                <h3>Recent Ideas</h3>
+                                <div class="feed-filters">
+                                    <select id="feedFilter">
+                                        <option value="all">All Ideas</option>
+                                        <option value="my">My Ideas</option>
+                                        <option value="following">Following</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="ideas-list" id="ideasList">
+                                <div class="loading-spinner">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Loading innovative ideas...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Suggestions -->
+                    <div class="dashboard-right">
+                        <!-- Suggested Groups -->
+                        <div class="suggestions-card">
+                            <h3>Suggested Groups</h3>
+                            <div class="suggestions-list" id="suggestedGroups">
+                                <div class="suggestion-item">
+                                    <div class="suggestion-icon">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <h4>Tech Innovators</h4>
+                                        <p>125 members • Technology</p>
+                                    </div>
+                                    <button class="btn btn-secondary btn-sm">Join</button>
+                                </div>
+                                <div class="suggestion-item">
+                                    <div class="suggestion-icon">
+                                        <i class="fas fa-leaf"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <h4>Green Solutions</h4>
+                                        <p>89 members • Environment</p>
+                                    </div>
+                                    <button class="btn btn-secondary btn-sm">Join</button>
+                                </div>
+                                <div class="suggestion-item">
+                                    <div class="suggestion-icon">
+                                        <i class="fas fa-graduation-cap"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <h4>EdTech Pioneers</h4>
+                                        <p>67 members • Education</p>
+                                    </div>
+                                    <button class="btn btn-secondary btn-sm">Join</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trending Ideas -->
+                        <div class="suggestions-card">
+                            <h3>Trending Ideas</h3>
+                            <div class="suggestions-list" id="trendingIdeas">
+                                <div class="suggestion-item">
+                                    <div class="suggestion-icon">
+                                        <i class="fas fa-rocket"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <h4>AI-Powered Education</h4>
+                                        <p>45 likes • 12 comments</p>
+                                    </div>
+                                </div>
+                                <div class="suggestion-item">
+                                    <div class="suggestion-icon">
+                                        <i class="fas fa-recycle"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <h4>Smart Waste Management</h4>
+                                        <p>38 likes • 8 comments</p>
+                                    </div>
+                                </div>
+                                <div class="suggestion-item">
+                                    <div class="suggestion-icon">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </div>
+                                    <div class="suggestion-info">
+                                        <h4>AR Shopping Experience</h4>
+                                        <p>32 likes • 5 comments</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/auth-state-manager.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/modals.js"></script>
+    <script src="/js/dashboard.js"></script>
+
+    <script>
+        // Make dashboard globally available for modals
+        let dashboardInstance = null;
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboardInstance = new Dashboard();
+            window.dashboard = dashboardInstance;
+        });
+    </script>
+</body>
+</html>

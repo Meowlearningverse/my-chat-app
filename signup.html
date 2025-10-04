@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - IdeaHub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/auth.css">
+   <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <!-- Navbar will be injected here by navbar.js -->
+        <div class="navbar-loading">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="logo-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="logo-text">IdeaHub</span>
+                    </a>
+                </div>
+                <div class="nav-loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="auth-section">
+            <div class="container">
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <div class="auth-header">
+                            <div class="auth-logo">
+                                <i class="fas fa-lightbulb"></i>
+                                <span class="logo-text">IdeaHub</span>
+                            </div>
+                            <h1>Create Your Account</h1>
+                            <p>Join our community of innovators and start sharing your ideas</p>
+                        </div>
+
+                        <form class="auth-form" id="signupForm">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <div class="input-group">
+                                    <i class="fas fa-user"></i>
+                                    <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <div class="input-group">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" id="email" name="email" required placeholder="Enter your email">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <div class="input-group">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="password" name="password" required placeholder="Create a password">
+                                    <button type="button" class="password-toggle" id="togglePassword">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar"></div>
+                                    <span class="strength-text">Password strength</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <div class="input-group">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                                </div>
+                            </div>
+
+                            <div class="form-group terms-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="terms" name="terms" required>
+                                    <span class="checkmark"></span>
+                                    I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-full" id="signupBtn">
+                                <span class="btn-text">Create Account</span>
+                                <div class="btn-loading hidden">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    Creating Account...
+                                </div>
+                            </button>
+
+                            <div class="auth-divider">
+                                <span>Or continue with</span>
+                            </div>
+
+                            <div class="social-auth">
+                                <button type="button" class="btn btn-social btn-google">
+                                    <i class="fab fa-google"></i>
+                                    Google
+                                </button>
+                                <button type="button" class="btn btn-social btn-github">
+                                    <i class="fab fa-github"></i>
+                                    GitHub
+                                </button>
+                            </div>
+
+                            <div class="auth-footer">
+                                <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="auth-side">
+                        <div class="auth-floating-cards">
+                            <div class="auth-floating-card innovation-card">
+                                <i class="fas fa-rocket"></i>
+                                <h3>Launch Ideas</h3>
+                                <p>Transform your concepts into reality with our innovative platform</p>
+                            </div>
+                            <div class="auth-floating-card collaboration-card">
+                                <i class="fas fa-users"></i>
+                                <h3>Collaborate</h3>
+                                <p>Connect with like-minded innovators and build together</p>
+                            </div>
+                            <div class="auth-floating-card growth-card">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Grow Faster</h3>
+                                <p>Get feedback and refine your ideas with community support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-state-manager.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/signup.js"></script>
+</body>
+</html>

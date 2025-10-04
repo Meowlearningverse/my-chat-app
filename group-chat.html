@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat - IdeaHub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <div class="navbar-loading">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="logo-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="logo-text">IdeaHub</span>
+                    </a>
+                </div>
+                <div class="nav-loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content chat-main">
+        <div class="chat-container">
+            <!-- Left Sidebar - Groups List -->
+            <aside class="groups-sidebar" id="groupsSidebar">
+                <div class="sidebar-header">
+                    <h3>Groups</h3>
+                    <button class="create-group-btn" id="createGroupBtn" title="Create or join group">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+                <div class="groups-list" id="groupsList">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading groups...</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Chat Area -->
+            <div class="chat-main-area" id="chatMainArea">
+                <div class="chat-header" id="chatHeader" style="display: none;">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="group-avatar">
+                            <span id="groupInitial">G</span>
+                        </div>
+                        <div class="group-info">
+                            <h2 class="group-name" id="groupName">Select a group</h2>
+                            <span class="member-count" id="memberCount">0 members</span>
+                        </div>
+                    </div>
+                    <div class="header-right" id="adminActions" style="display: none;">
+                        <button class="admin-btn" id="manageMembersBtn" title="Manage members">
+                            <i class="fas fa-users-cog"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="messages-container" id="messagesContainer">
+                    <div class="no-group-selected">
+                        <i class="fas fa-comments"></i>
+                        <p>Select a group to start chatting</p>
+                    </div>
+                </div>
+
+                <div class="message-input-container" id="messageInputContainer" style="display: none;">
+                    <div class="message-input-wrapper">
+                        <button class="emoji-btn" id="emojiBtn" title="Add emoji">
+                            <i class="fas fa-smile"></i>
+                        </button>
+                        <input type="text" placeholder="Type a message..." class="message-input" id="messageInput">
+                        <button class="send-btn" id="sendBtn" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Group Template (Hidden) -->
+    <template id="groupTemplate">
+        <div class="group-item" data-group-id="">
+            <div class="group-avatar">
+                <span class="group-initial"></span>
+            </div>
+            <div class="group-details">
+                <div class="group-name"></div>
+                <div class="group-last-msg">
+                    <span class="last-msg-text"></span>
+                    <span class="last-msg-time"></span>
+                </div>
+            </div>
+            <div class="group-meta">
+                <span class="unread-badge" style="display: none;">1</span>
+            </div>
+        </div>
+    </template>
+
+    <!-- Message Template (Hidden) -->
+    <template id="messageTemplate">
+        <div class="message-item" data-msg-id="" data-author-id="">
+            <div class="message-bubble">
+                <div class="message-header">
+                    <span class="message-author"></span>
+                    <span class="message-time"></span>
+                </div>
+                <div class="message-content">
+                    <p class="message-text"></p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-state-manager.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/chat.js"></script>
+</body>
+</html>

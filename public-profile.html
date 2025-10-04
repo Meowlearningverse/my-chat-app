@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Profile - IdeaHub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/public-profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <div class="navbar-loading">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="logo-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="logo-text">IdeaHub</span>
+                    </a>
+                </div>
+                <div class="nav-loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content profile-main">
+        <div class="container">
+            <div class="profile-layout">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar-section">
+                        <div class="profile-avatar-large" id="profileAvatar">
+                            <img src="" alt="User" id="profileAvatarImg" onerror="this.style.display='none'">
+                            <span id="profileInitial">U</span>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name" id="profileName">Loading...</h1>
+                        <p class="profile-join-date" id="profileJoinDate">Loading...</p>
+                        <p class="profile-bio" id="profileBio">Loading...</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="postCount">0</span>
+                                <span class="stat-label">Posts</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="likeCount">0</span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="commentCount">0</span>
+                                <span class="stat-label">Comments</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Posts -->
+                <div class="profile-posts">
+                    <h2 id="postsTitle">Posts by <span id="postsName">User</span></h2>
+                    <div class="posts-feed" id="userPostsFeed">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading posts...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Post Template (Hidden) -->
+    <template id="postTemplate">
+        <div class="post-card profile-post-card" data-post-id="">
+            <div class="post-header">
+                <div class="post-author">
+                    <a href="public-profile.html" class="author-avatar-link">
+                        <div class="author-avatar"></div>
+                    </a>
+                    <div class="author-info">
+                        <a href="public-profile.html" class="author-name"></a>
+                        <span class="post-time"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-content">
+                <div class="post-description">
+                    <p class="post-text"></p>
+                </div>
+            </div>
+
+            <div class="post-stats">
+                <div class="stat-item">
+                    <i class="fas fa-heart"></i>
+                    <span class="like-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="comment-count">0 comments</span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-state-manager.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/public-profile.js"></script>
+</body>
+</html>

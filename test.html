@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Firebase - IdeaHub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 100px auto 50px;
+            padding: 2rem;
+        }
+        
+        .test-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .test-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+        
+        .test-result {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .success {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .error {
+            border-left: 4px solid var(--error-color);
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-connected {
+            background: var(--success-color);
+        }
+        
+        .status-disconnected {
+            background: var(--error-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <div class="navbar-loading">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="logo-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="logo-text">IdeaHub</span>
+                    </a>
+                </div>
+                <div class="nav-loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container test-container">
+            <h1>Firebase Test Page</h1>
+            <p>Use this page to test if Firebase is working correctly with your IdeaHub application.</p>
+
+            <!-- Connection Test -->
+            <div class="test-section">
+                <h3>1. Firebase Connection Test</h3>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" id="testConnectionBtn">
+                        Test Connection
+                    </button>
+                </div>
+                <div class="test-result" id="connectionResult">
+                    Click "Test Connection" to check Firebase connectivity
+                </div>
+            </div>
+
+            <!-- Authentication Test -->
+            <div class="test-section">
+                <h3>2. Authentication Test</h3>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" id="testAuthBtn">
+                        Check Auth Status
+                    </button>
+                    <button class="btn btn-secondary" id="testLogoutBtn">
+                        Test Logout
+                    </button>
+                </div>
+                <div class="test-result" id="authResult">
+                    Click "Check Auth Status" to see current authentication state
+                </div>
+            </div>
+
+            <!-- Database Write Test -->
+            <div class="test-section">
+                <h3>3. Database Write Test</h3>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" id="writeTestBtn">
+                        Write Test Data
+                    </button>
+                    <button class="btn btn-secondary" id="readTestBtn">
+                        Read Test Data
+                    </button>
+                </div>
+                <div class="test-result" id="dbResult">
+                    Click "Write Test Data" to test database write permissions
+                </div>
+            </div>
+
+            <!-- Post Creation Test -->
+            <div class="test-section">
+                <h3>4. Post Creation Test</h3>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" id="createPostBtn">
+                        Create Test Post
+                    </button>
+                    <button class="btn btn-secondary" id="listPostsBtn">
+                        List All Posts
+                    </button>
+                </div>
+                <div class="test-result" id="postResult">
+                    Click "Create Test Post" to test post creation functionality
+                </div>
+            </div>
+
+            <!-- Real-time Updates Test -->
+            <div class="test-section">
+                <h3>5. Real-time Updates Test</h3>
+                <div class="test-buttons">
+                    <button class="btn btn-primary" id="startListeningBtn">
+                        Start Listening
+                    </button>
+                    <button class="btn btn-secondary" id="stopListeningBtn">
+                        Stop Listening
+                    </button>
+                </div>
+                <div class="test-result" id="realtimeResult">
+                    Click "Start Listening" to test real-time database updates
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="test-section">
+                <h3>Quick Actions</h3>
+                <div class="test-buttons">
+                    <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+                    <a href="index.html" class="btn btn-secondary">Back to Home</a>
+                    <button class="btn btn-danger" id="clearAllDataBtn">
+                        Clear Test Data
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/navbar.js"></script>
+    
+    <script>
+        // Test functionality
+        class FirebaseTester {
+            constructor() {
+                this.isListening = false;
+                this.listener = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.checkInitialConnection();
+            }
+
+            setupEventListeners() {
+                // Connection test
+                document.getElementById('testConnectionBtn').addEventListener('click', () => {
+                    this.testConnection();
+                });
+
+                // Auth test
+                document.getElementById('testAuthBtn').addEventListener('click', () => {
+                    this.testAuth();
+                });
+
+                document.getElementById('testLogoutBtn').addEventListener('click', () => {
+                    this.testLogout();
+                });
+
+                // Database test
+                document.getElementById('writeTestBtn').addEventListener('click', () => {
+                    this.testWrite();
+                });
+
+                document.getElementById('readTestBtn').addEventListener('click', () => {
+                    this.testRead();
+                });
+
+                // Post test
+                document.getElementById('createPostBtn').addEventListener('click', () => {
+                    this.testCreatePost();
+                });
+
+                document.getElementById('listPostsBtn').addEventListener('click', () => {
+                    this.testListPosts();
+                });
+
+                // Real-time test
+                document.getElementById('startListeningBtn').addEventListener('click', () => {
+                    this.startRealtimeListening();
+                });
+
+                document.getElementById('stopListeningBtn').addEventListener('click', () => {
+                    this.stopRealtimeListening();
+                });
+
+                // Clear data
+                document.getElementById('clearAllDataBtn').addEventListener('click', () => {
+                    this.clearTestData();
+                });
+            }
+
+            checkInitialConnection() {
+                const resultDiv = document.getElementById('connectionResult');
+                resultDiv.innerHTML = '<span class="status-indicator status-disconnected"></span>Checking initial connection...';
+                
+                try {
+                    const database = firebase.database();
+                    resultDiv.innerHTML = '<span class="status-indicator status-connected"></span>Firebase initialized successfully!';
+                    resultDiv.classList.add('success');
+                } catch (error) {
+                    resultDiv.innerHTML = `<span class="status-indicator status-disconnected"></span>Firebase initialization failed: ${error.message}`;
+                    resultDiv.classList.add('error');
+                }
+            }
+
+            async testConnection() {
+                const resultDiv = document.getElementById('connectionResult');
+                resultDiv.innerHTML = '<span class="status-indicator status-disconnected"></span>Testing connection...';
+                
+                try {
+                    const database = firebase.database();
+                    // Try to read a small piece of data to test connection
+                    const testRef = database.ref('.info/connected');
+                    
+                    testRef.once('value')
+                        .then((snapshot) => {
+                            resultDiv.innerHTML = `<span class="status-indicator status-connected"></span>✅ Firebase connection successful!`;
+                            resultDiv.classList.add('success');
+                            resultDiv.classList.remove('error');
+                        })
+                        .catch((error) => {
+                            throw error;
+                        });
+                        
+                } catch (error) {
+                    resultDiv.innerHTML = `<span class="status-indicator status-disconnected"></span>❌ Connection failed: ${error.message}`;
+                    resultDiv.classList.add('error');
+                    resultDiv.classList.remove('success');
+                }
+            }
+
+            async testAuth() {
+                const resultDiv = document.getElementById('authResult');
+                const user = firebase.auth().currentUser;
+                
+                if (user) {
+                    resultDiv.innerHTML = `
+                        <span class="status-indicator status-connected"></span>✅ User is authenticated!
+                        \n\nUser Details:
+                        - UID: ${user.uid}
+                        - Email: ${user.email}
+                        - Display Name: ${user.displayName || 'Not set'}
+                        - Email Verified: ${user.emailVerified}
+                    `;
+                    resultDiv.classList.add('success');
+                    resultDiv.classList.remove('error');
+                } else {
+                    resultDiv.innerHTML = '<span class="status-indicator status-disconnected"></span>❌ No user is currently authenticated. Please log in.';
+                    resultDiv.classList.add('error');
+                    resultDiv.classList.remove('success');
+                }
+            }
+
+            async testLogout() {
+                try {
+                    await firebase.auth().signOut();
+                    const resultDiv = document.getElementById('authResult');
+                    resultDiv.innerHTML = '<span class="status-indicator status-connected"></span>✅ Logout successful!';
+                    resultDiv.classList.add('success');
+                } catch (error) {
+                    const resultDiv = document.getElementById('authResult');
+                    resultDiv.innerHTML = `<span class="status-indicator status-disconnected"></span>❌ Logout failed: ${error.message}`;
+                    resultDiv.classList.add('error');
+                }
+            }
+
+            async testWrite() {
+                const resultDiv = document.getElementById('dbResult');
+                const user = firebase.auth().currentUser;
+                
+                if (!user) {
+                    resultDiv.innerHTML = '❌ Please log in first to test database writes.';
+                    resultDiv.classList.add('error');
+                    return;
+                }
+
+                try {
+                    const testData = {
+                        message: 'This is a test message from IdeaHub',
+                        timestamp: new Date().toISOString(),
+                        userId: user.uid,
+                        testId: Date.now()
+                    };
+
+                    const testRef = firebase.database().ref('testData/' + user.uid + '/' + Date.now());
+                    await testRef.set(testData);
+
+                    resultDiv.innerHTML = `✅ Data written successfully!\n\nWritten data:\n${JSON.stringify(testData, null, 2)}`;
+                    resultDiv.classList.add('success');
+                    resultDiv.classList.remove('error');
+
+                } catch (error) {
+                    resultDiv.innerHTML = `❌ Write failed: ${error.message}\n\nMake sure your Firebase rules allow writes.`;
+                    resultDiv.classList.add('error');
+                    resultDiv.classList.remove('success');
+                }
+            }
+
+            async testRead() {
+                const resultDiv = document.getElementById('dbResult');
+                const user = firebase.auth().currentUser;
+                
+                if (!user) {
+                    resultDiv.innerHTML = '❌ Please log in first to test database reads.';
+                    resultDiv.classList.add('error');
+                    return;
+                }
+
+                try {
+                    const testRef = firebase.database().ref('testData/' + user.uid);
+                    const snapshot = await testRef.once('value');
+                    const data = snapshot.val();
+
+                    if (data) {
+                        resultDiv.innerHTML = `✅ Data read successfully!\n\nFound ${Object.keys(data).length} test entries:\n${JSON.stringify(data, null, 2)}`;
+                        resultDiv.classList.add('success');
+                    } else {
+                        resultDiv.innerHTML = 'ℹ️ No test data found. Try writing some data first.';
+                        resultDiv.classList.remove('success');
+                        resultDiv.classList.remove('error');
+                    }
+
+                } catch (error) {
+                    resultDiv.innerHTML = `❌ Read failed: ${error.message}`;
+                    resultDiv.classList.add('error');
+                }
+            }
+
+            async testCreatePost() {
+                const resultDiv = document.getElementById('postResult');
+                const user = firebase.auth().currentUser;
+                
+                if (!user) {
+                    resultDiv.innerHTML = '❌ Please log in first to create posts.';
+                    resultDiv.classList.add('error');
+                    return;
+                }
+
+                try {
+                    const postData = {
+                        title: 'Test Post from Firebase Tester',
+                        description: 'This is a test post created to verify Firebase database functionality.',
+                        authorId: user.uid,
+                        authorName: user.displayName || user.email.split('@')[0],
+                        authorEmail: user.email,
+                        likes: 0,
+                        comments: {},
+                        category: 'technology',
+                        privacy: 'public',
+                        tags: ['test', 'firebase', 'verification'],
+                        createdAt: new Date().toISOString()
+                    };
+
+                    const postRef = firebase.database().ref('posts').push();
+                    await postRef.set(postData);
+
+                    resultDiv.innerHTML = `✅ Post created successfully!\n\nPost ID: ${postRef.key}\nPost data:\n${JSON.stringify(postData, null, 2)}`;
+                    resultDiv.classList.add('success');
+                    resultDiv.classList.remove('error');
+
+                } catch (error) {
+                    resultDiv.innerHTML = `❌ Post creation failed: ${error.message}\n\nCheck your Firebase rules for posts collection.`;
+                    resultDiv.classList.add('error');
+                    resultDiv.classList.remove('success');
+                }
+            }
+
+            async testListPosts() {
+                const resultDiv = document.getElementById('postResult');
+                
+                try {
+                    const postsRef = firebase.database().ref('posts').limitToLast(5);
+                    const snapshot = await postsRef.once('value');
+                    const posts = snapshot.val();
+
+                    if (posts) {
+                        const postCount = Object.keys(posts).length;
+                        resultDiv.innerHTML = `✅ Found ${postCount} posts:\n\n${JSON.stringify(posts, null, 2)}`;
+                        resultDiv.classList.add('success');
+                    } else {
+                        resultDiv.innerHTML = 'ℹ️ No posts found in the database.';
+                        resultDiv.classList.remove('success');
+                        resultDiv.classList.remove('error');
+                    }
+
+                } catch (error) {
+                    resultDiv.innerHTML = `❌ Failed to list posts: ${error.message}`;
+                    resultDiv.classList.add('error');
+                }
+            }
+
+            startRealtimeListening() {
+                const resultDiv = document.getElementById('realtimeResult');
+                
+                if (this.isListening) {
+                    resultDiv.innerHTML = 'ℹ️ Already listening for real-time updates.';
+                    return;
+                }
+
+                try {
+                    this.listener = firebase.database().ref('posts').limitToLast(1);
+                    
+                    this.listener.on('child_added', (snapshot) => {
+                        const post = snapshot.val();
+                        resultDiv.innerHTML = `🔄 REAL-TIME UPDATE: New post added!\n\nPost ID: ${snapshot.key}\nTitle: ${post.title}\nAuthor: ${post.authorName}\nTime: ${new Date().toLocaleTimeString()}`;
+                        resultDiv.classList.add('success');
+                    });
+
+                    this.isListening = true;
+                    resultDiv.innerHTML = '👂 Started listening for real-time post updates...\nNew posts will appear here automatically.';
+                    resultDiv.classList.remove('error');
+
+                } catch (error) {
+                    resultDiv.innerHTML = `❌ Failed to start real-time listening: ${error.message}`;
+                    resultDiv.classList.add('error');
+                }
+            }
+
+            stopRealtimeListening() {
+                const resultDiv = document.getElementById('realtimeResult');
+                
+                if (this.listener) {
+                    this.listener.off();
+                    this.listener = null;
+                }
+
+                this.isListening = false;
+                resultDiv.innerHTML = '🛑 Stopped real-time listening.';
+                resultDiv.classList.remove('success');
+                resultDiv.classList.remove('error');
+            }
+
+            async clearTestData() {
+                const user = firebase.auth().currentUser;
+                
+                if (!user) {
+                    alert('Please log in first to clear test data.');
+                    return;
+                }
+
+                if (confirm('Are you sure you want to delete all test data? This cannot be undone.')) {
+                    try {
+                        // Clear test data
+                        await firebase.database().ref('testData/' + user.uid).remove();
+                        
+                        // Clear any test posts by this user
+                        const postsRef = firebase.database().ref('posts');
+                        const snapshot = await postsRef.once('value');
+                        const posts = snapshot.val();
+                        
+                        if (posts) {
+                            const deletePromises = [];
+                            Object.keys(posts).forEach(postId => {
+                                if (posts[postId].authorId === user.uid && posts[postId].title.includes('Test Post')) {
+                                    deletePromises.push(postsRef.child(postId).remove());
+                                }
+                            });
+                            
+                            await Promise.all(deletePromises);
+                        }
+
+                        alert('Test data cleared successfully!');
+                        location.reload();
+
+                    } catch (error) {
+                        alert(`Failed to clear test data: ${error.message}`);
+                    }
+                }
+            }
+        }
+
+        // Initialize tester when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new FirebaseTester();
+        });
+    </script>
+</body>
+</html>

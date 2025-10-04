@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts - IdeaHub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/posts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar Container -->
+    <div id="navbar-container">
+        <div class="navbar-loading">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html" class="logo-link">
+                        <i class="fas fa-lightbulb"></i>
+                        <span class="logo-text">IdeaHub</span>
+                    </a>
+                </div>
+                <div class="nav-loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content posts-main">
+        <div class="container">
+            <div class="posts-layout">
+                <!-- Left Sidebar - Simplified -->
+                <aside class="posts-sidebar">
+                    <div class="sidebar-card">
+                        <div class="filters-header">
+                            <h3>Filters</h3>
+                            <button class="filter-toggle-btn" id="filterToggleBtn">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="filter-options" id="filterOptions">
+                            <div class="filter-group">
+                                <label>Sort By</label>
+                                <select class="filter-select" id="sortFilter">
+                                    <option value="newest">Most recent</option>
+                                    <option value="popular">Top posts</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Content Area - LinkedIn Style -->
+                <div class="posts-content">
+                    <!-- Create Post Card - LinkedIn Style -->
+                    <div class="create-post-card linkedin-style">
+                        <div class="post-input-container">
+                            <div class="user-avatar-medium">
+                                <img src="" alt="User" id="postUserAvatar" onerror="this.style.display='none'">
+                                <span id="postUserInitial">U</span>
+                            </div>
+                            <button class="create-post-trigger large" id="mainPostTrigger">
+                                Start a post...
+                            </button>
+                        </div>
+                        <div class="post-options-bar">
+                            <button class="post-option">
+                                <i class="fas fa-image" style="color: #70B5F9;"></i>
+                                <span>Media</span>
+                            </button>
+                            <button class="post-option">
+                                <i class="fas fa-calendar-alt" style="color: #E7A33E;"></i>
+                                <span>Event</span>
+                            </button>
+                            <button class="post-option">
+                                <i class="fas fa-newspaper" style="color: #7FC15E;"></i>
+                                <span>Article</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Posts Feed -->
+                    <div class="posts-feed" id="postsFeed">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading innovative ideas...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar - Clean & Minimal -->
+                <aside class="posts-sidebar right-sidebar">
+                    <div class="sidebar-card">
+                        <h3>Top Contributors</h3>
+                        <div class="members-list" id="topMembers">
+                            <div class="member-item">
+                                <div class="member-avatar">J</div>
+                                <div class="member-info">
+                                    <a href="public-profile.html" class="member-name">John Innovator</a>
+                                    <span class="member-role">12 ideas</span>
+                                </div>
+                            </div>
+                            <div class="member-item">
+                                <div class="member-avatar">S</div>
+                                <div class="member-info">
+                                    <a href="public-profile.html" class="member-name">Sarah Creator</a>
+                                    <span class="member-role">8 ideas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- Post Template (Hidden) - LinkedIn Style -->
+    <template id="postTemplate">
+        <div class="post-card linkedin-style" data-post-id="">
+            <div class="post-header">
+                <div class="post-author">
+                    <a href="public-profile.html" class="author-avatar-link">
+                        <div class="author-avatar"></div>
+                    </a>
+                    <div class="author-info">
+                        <a href="public-profile.html" class="author-name"></a>
+                        <span class="post-time"></span>
+                        <span class="post-privacy">
+                            <i class="fas fa-globe-americas"></i>
+                            Public
+                        </span>
+                    </div>
+                </div>
+                <div class="post-actions-menu">
+                    <button class="post-menu-btn">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <div class="post-menu-dropdown">
+                        <button class="menu-item edit-post">
+                            <i class="fas fa-edit"></i> Edit post
+                        </button>
+                        <button class="menu-item delete-post">
+                            <i class="fas fa-trash"></i> Delete post
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="post-content">
+                <div class="post-description">
+                    <p class="post-text"></p>
+                    <button class="read-more-btn">...see more</button>
+                </div>
+            </div>
+
+            <div class="post-stats">
+                <div class="stat-item">
+                    <i class="fas fa-heart"></i>
+                    <span class="like-count">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="comment-count">0 comments</span>
+                </div>
+            </div>
+
+            <div class="post-actions">
+                <button class="action-btn like-btn" data-action="like">
+                    <i class="far fa-thumbs-up"></i>
+                    <span>Like</span>
+                </button>
+                <button class="action-btn dislike-btn" data-action="dislike">
+                    <i class="far fa-thumbs-down"></i>
+                    <span>Dislike</span>
+                </button>
+                <button class="action-btn comment-btn" data-action="comment">
+                    <i class="far fa-comment"></i>
+                    <span>Comment</span>
+                </button>
+                <button class="action-btn share-btn" data-action="share">
+                    <i class="far fa-share-square"></i>
+                    <span>Share</span>
+                </button>
+            </div>
+
+            <!-- Comments Section - YouTube Style -->
+            <div class="comments-section">
+                <div class="add-comment">
+                    <div class="comment-avatar">
+                        <img src="" alt="User" onerror="this.style.display='none'">
+                        <span></span>
+                    </div>
+                    <div class="comment-input-wrapper">
+                        <input type="text" placeholder="Add a comment..." class="comment-input">
+                        <div class="comment-actions">
+                            <button class="comment-cancel-btn">Cancel</button>
+                            <button class="comment-submit-btn">Comment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comments-list">
+                    <!-- Comments will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Comment Template -->
+    <template id="commentTemplate">
+        <div class="comment-item" data-comment-id="">
+            <div class="comment-avatar">
+                <img src="" alt="User" onerror="this.style.display='none'">
+                <span></span>
+            </div>
+            <div class="comment-content">
+                <div class="comment-header">
+                    <a href="public-profile.html" class="comment-author"></a>
+                    <span class="comment-time"></span>
+                </div>
+                <p class="comment-text"></p>
+                <div class="comment-actions-bar">
+                    <button class="comment-like-btn">
+                        <i class="far fa-thumbs-up"></i>
+                        <span class="comment-like-count">0</span>
+                    </button>
+                    <button class="comment-reply-btn">
+                        Reply
+                    </button>
+                    <div class="comment-actions">
+                        <button class="comment-edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="comment-delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reply Section -->
+                <div class="reply-section">
+                    <div class="add-reply">
+                        <div class="comment-avatar small">
+                            <img src="" alt="User" onerror="this.style.display='none'">
+                            <span></span>
+                        </div>
+                        <div class="reply-input-wrapper">
+                            <input type="text" placeholder="Write a reply..." class="reply-input">
+                            <div class="reply-actions">
+                                <button class="reply-cancel-btn">Cancel</button>
+                                <button class="reply-submit-btn">Reply</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="replies-list">
+                        <!-- Replies will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Reply Template -->
+    <template id="replyTemplate">
+        <div class="reply-item" data-reply-id="">
+            <div class="comment-avatar small">
+                <img src="" alt="User" onerror="this.style.display='none'">
+                <span></span>
+            </div>
+            <div class="comment-content">
+                <div class="comment-header">
+                    <a href="public-profile.html" class="comment-author"></a>
+                    <span class="comment-time"></span>
+                </div>
+                <p class="comment-text"></p>
+                <div class="comment-actions-bar">
+                    <button class="comment-like-btn">
+                        <i class="far fa-thumbs-up"></i>
+                        <span class="comment-like-count">0</span>
+                    </button>
+                    <button class="comment-reply-btn">
+                        Reply
+                    </button>
+                    <div class="comment-actions">
+                        <button class="comment-edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="comment-delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Post Creation Modal -->
+    <div class="modal-overlay" id="postModalOverlay">
+        <div class="modal large-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Create post</h3>
+                <button class="modal-close" id="closePostModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="post-author-modal">
+                    <div class="user-avatar-medium">
+                        <img src="" alt="User" id="modalUserAvatar" onerror="this.style.display='none'">
+                        <span id="modalUserInitial">U</span>
+                    </div>
+                    <div class="author-info">
+                        <div class="author-name" id="modalAuthorName"></div>
+                        <select class="privacy-select" id="postPrivacy">
+                            <option value="public">
+                                <i class="fas fa-globe-americas"></i> Anyone
+                            </option>
+                            <option value="connections">
+                                <i class="fas fa-user-friends"></i> Connections only
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <form class="post-form-modal" id="postFormModal">
+                    <textarea 
+                        id="postContentModal" 
+                        placeholder="What do you want to talk about?"
+                        rows="6"
+                    ></textarea>
+                    <div class="character-count">
+                        <span id="charCount">0</span>/3000
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="post-options-modal">
+                    <button class="post-option-btn" title="Add media">
+                        <i class="fas fa-image"></i>
+                    </button>
+                    <button class="post-option-btn" title="Add event">
+                        <i class="fas fa-calendar-alt"></i>
+                    </button>
+                    <button class="post-option-btn" title="Add article">
+                        <i class="fas fa-newspaper"></i>
+                    </button>
+                </div>
+                <button class="btn btn-primary" id="submitPostModal" disabled>
+                    Post
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth-state-manager.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/posts.js"></script>
+</body>
+</html>
